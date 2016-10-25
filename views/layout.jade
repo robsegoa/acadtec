@@ -7,8 +7,13 @@ head
 	title= title
 	link(rel='stylesheet', href='/css/bootstrap.min.css')
 	link(rel='stylesheet', href='/css/style.css')
+	link(rel="stylesheet", href='/css/bootstrap-aux.css')
 body
-block content
-
+	div(class="container")
+		div(class="masthead")
+			h3.text-muted Projeto Node Acadtec
+			include partials/menu
+		block content
+		include partials/footer
 	script(src="/js/jquery.min.css")
 	script(src="/js/bootstrap.min.js")		
