@@ -32,11 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', routes); 
 //app.use('/users', users);
 
-//middleware
-app.use(erros.notfound);
-app.use(erros.serverError);
+load('models').then('controllers').then('routes').into(app);
 
-load('controllers').then('models').then('routes').into(app);
+//middleware
+//app.use(erros.notfound);
+//app.use(erros.serverError
 
 
 // catch 404 and forward to error handler
