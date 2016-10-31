@@ -4,9 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var load = require('express-load')
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -23,14 +23,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret: 'nodejsacadtec009933'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+//Essa 4 linhas abaixo foram comentadas pq as rotas foram criadas nos controladores para usar o load;
+//var routes = require('./routes/index');
+//var users = require('./routes/users');
+//app.use('/', routes); 
+//app.use('/users', users);
+
+load('models').then('controllers').then('routes').into(app);
 
 //middleware
-app.use(erros.notfound);
-app.use(erros.serverError);
+//app.use(erros.notfound);
+//app.use(erros.serverError
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,6 +69,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
 
 module.exports = app;
 

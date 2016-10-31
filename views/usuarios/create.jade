@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+	h1 Cadastro de Usuários
+	hr
+	br
+	form(method="POST", action="/usuarios/create", role = "form")
+		div(class="form-group")
+			label Nome
+			input(type="text", class="form-control", name="nome", placeholder="Nome", autofocus)
+		div(class="form-group")
+			label E-mail
+			input(type="email", class="form-control", name="email", placeholder="E-mail")
+		div(class="form-group")
+			label Senha
+			input(type="password", class="form-control", name="password", placeholder="Senha")
+		div(class="form-group")
+			label Confirmar Senha
+			input(type="password", class="form-control", name="password_confirmar", placeholder="Confirmar Senha")
+		button(type="submit", class="btn btn-success") Salvar
