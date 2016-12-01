@@ -5,8 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var load = require('express-load')
+var load = require('express-load');
+var mongoose = require('mongoose');
+var flash = require('express-flash');
+var moment = require('moment');
 
+
+//conexão com mongo
+mongoose.connect('mongodb://localhost:27017/acadtec',function(err){
+  if(err){
+    console.log("Erro ao conectar no mongoDB: "+err);
+  }else{
+    console.log("Conexão com mongoDB efetuada com sucesso!");
+  }
+});
 
 var app = express();
 
@@ -25,6 +37,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({ secret: 'nodejsacadtec009933'}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
+//helpers - tem que ser antes do carregamento do load
+app.use(function(req,res,next){
+  res.locals.moment = moment;
+  next();
+});
 
 //Essa 4 linhas abaixo foram comentadas pq as rotas foram criadas nos controladores para usar o load;
 //var routes = require('./routes/index');
