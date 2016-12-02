@@ -6,6 +6,9 @@ block content
 	br
 	if messages.erro 
 		div(class="alert alert-danger")
+			each msg in messages.erro
+				b= msg
+				br
 			p #{messages.erro}
 	form(method="POST", action="/usuarios/create", role = "form")
 		div(class="form-group")
