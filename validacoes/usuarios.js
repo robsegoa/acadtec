@@ -11,7 +11,7 @@ module.exports = function(req,res){
 	}
 	req.assert('site','Site não é uma url válida').isURL();
 
-	var validateErros = reqvalidationErros() || [];
+	var validateErros = req.validationErrors() || [];
 
 	//verificar se a senha confere
 
@@ -19,7 +19,7 @@ module.exports = function(req,res){
 		validateErros.push({msg:'Senha não confere'});
 	}
 
-	if(validateErros.lenth > 0){
+	if(validateErros.length > 0){
 		validateErros.forEach(function(e){
 			req.flash('erro', e.msg);
 		});

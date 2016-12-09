@@ -33,7 +33,7 @@ module.exports = function(app){
 						req.flash('info', 'Registro cadastrado com sucesso!');
 						res.redirect('/usuarios');
 					}
-				})
+				});
 			}else{
 				res.render('usuarios/create',{user: req.body});
 			}
