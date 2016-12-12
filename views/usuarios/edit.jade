@@ -6,18 +6,20 @@ block content
 	br
 	if messages.erro 
 		div(class="alert alert-danger")
-			p #{messages.erro}
+			each msg in messages.erro
+				b= msg
+				br
 		br
 	form(method="POST", action="/usuarios/edit/#{dados._id}", role = "form")
 		div(class="form-group")
 			label Nome
-			input(type="text", class="form-control", name="nome", placeholder="Nome", autofocus, value="#{dados.nome}")
+			input(type="text", class="form-control", name="nome", placeholder="Nome", autofocus, value="#{dados.nome}", required)
 		div(class="form-group")
 			label Site
 			input(type="text", class="form-control", name="site", placeholder="Site", value="#{dados.site}")
 		div(class="form-group")
 			label E-mail
-			input(type="email", class="form-control", name="email", placeholder="E-mail", disabled, value="#{dados.email}")
+			input(type="email", class="form-control", name="email", placeholder="E-mail", disabled, value="#{dados.email}", required)
 		button(type="submit", class="btn btn-success") Salvar
 	br
 	br

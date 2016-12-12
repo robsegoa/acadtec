@@ -16,7 +16,7 @@ module.exports = function(app){
 			});
 		},
 		create: function(req,res){
-			res.render('usuarios/create')
+			res.render('usuarios/create',{user: new Usuario()});
 		},
 		post: function(req,res){
 			if(validacao(req,res)){
@@ -25,15 +25,23 @@ module.exports = function(app){
 				model.email = req.body.email;
 				model.site = req.body.site;
 				model.password = model.generateHash(req.body.password);
-				model.save(function(err){
-					if(err){
-						req.flash('erro', 'Erro ao cadastrar: '+err);
+				
+				Usuario.findOne({'email': model.email}, function(err,data){
+					if(data){
+						req.flash('erro', 'E-mail encontra-se já cadastrado, tente outro email');
 						res.render('usuarios/create', {user: req.body});
 					}else{
-						req.flash('info', 'Registro cadastrado com sucesso!');
-						res.redirect('/usuarios');
+						model.save(function(err){
+							if(err){
+								req.flash('erro', 'Erro ao cadastrar: '+err);
+								res.render('usuarios/create', {user: req.body});
+							}else{
+								req.flash('info', 'Registro cadastrado com sucesso!');
+								res.redirect('/usuarios');
+							}
+						});		
 					}
-				});
+				})
 			}else{
 				res.render('usuarios/create',{user: req.body});
 			}
@@ -70,21 +78,26 @@ module.exports = function(app){
 			});
 		},
 		update: function(req,res){
-			Usuario.findById(req.params.id,function(err,data){
-				var model = data;
-				model.nome = req.body.nome;
-				model.site = req.body.site;
+			if(validacao(req,res)){
+				Usuario.findById(req.params.id,function(err,data){
+					var model = data;
+					model.nome = req.body.nome;
+					model.site = req.body.site;
 
-				model.save(function(err){
-					if(err){
-						req.flash('erro','Erro ao editar: '+err);
-						res.render('usuarios/edit', {dados: model});
-					}else{
-						req.flash('info', 'Registro atualizado com sucesso');
-						res.redirect('/usuarios');
-					}
+					model.save(function(err){
+						if(err){
+							req.flash('erro','Erro ao editar: '+err);
+							res.render('usuarios/edit', {dados: model});
+						}else{
+							req.flash('info', 'Registro atualizado com sucesso');
+							res.redirect('/usuarios');
+						}
+					})
 				})
-			})
+			}else{
+				res.render('usuarios/edit',{user: req.body});
+			}
+			
 		}
 	}
 
