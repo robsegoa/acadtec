@@ -45,6 +45,11 @@ app.use(flash());
 
 //helpers - tem que ser antes do carregamento do load
 app.use(function(req,res,next){
+  //sessão
+  res.locals.session = req.session.usuario;
+  res.locals.isLogged= req.session.usuario ? true : false;
+
+  //moment
   res.locals.moment = moment;
   next();
 });
