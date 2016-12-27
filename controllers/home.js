@@ -27,7 +27,7 @@ module.exports = function(app){
 						model.nome = "Admin";
 						model.email = "robson.sevenmkt@gmail.com";
 						model.site = "facebook.com";
-						model.password = model.generateHash("12345");
+						model.password = model.generateHash("123456");
 						model.save(function(err,data){
 							if(!err){
 								req.session.usuario = data;
