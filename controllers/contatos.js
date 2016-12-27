@@ -21,22 +21,26 @@ module.exports = function(app){
 		},
 
 		post: function(req,res){
-			
-			var _id = req.params.id;
-			Amigo.findById(_id, function(err,dados){
-				var contato = req.body.contatos;
-				dados.contatos.push(contato);
-				dados.save(function(err){
-					if(err){
-						req.flash('erro', 'Erro ao cadastrar contato: '+err);
-						//res.redirect('/contatos/'+ _id);
-						//pois de qualquer jeito ele vai 
-						//voltar para a pág de contato no comando abaixo
-					}
-					res.redirect('/contatos/'+ _id);
+			if(validacao(req,res)){
+				var _id = req.params.id;
+				Amigo.findById(_id, function(err,dados){
+					var contato = req.body.contatos;
+					dados.contatos.push(contato);
+					dados.save(function(err){
+						if(err){
+							req.flash('erro', 'Erro ao cadastrar contato: '+err);
+							//res.redirect('/contatos/'+ _id);
+							//pois de qualquer jeito ele vai 
+							//voltar para a pág de contato no comando abaixo
+						}
+						res.redirect('/contatos/'+ _id);
 
-				});
-			});
+					});
+				});	
+			}else{
+				res.render('contatos/create',{model: req.body, id: req.params.id});
+			}
+			
 		},
 
 		excluir: function(req,res){

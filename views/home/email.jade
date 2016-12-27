@@ -1,0 +1,28 @@
+extends ../layout
+
+block content 
+	h1 Envio de E-mail
+	hr
+	if messages.erro 
+		div(class="alert alert-danger")
+			each msg in messages.erro
+				b= msg
+				br
+		br
+	if messages.info
+		div(class="alert alert-success")
+			p #{messages.info}
+	form(method="POST", action="/email",role="form")
+		div(class="form-group")
+			label Nome
+			input(type="text", name="nome", class="form-control", placeholder="Nome")
+		div(class="form-group")
+			label E-mail
+			input(type="email", name="email", class="form-control", placeholder="E-mail")
+		div(class="form-group")
+			label Assunto
+			input(type="text", name="assunto", class="form-control", placeholder="Assunto")
+		div(class="form-group")
+			label Mensagem
+			textarea(row="5", cols="5", name="mensagem", class="form-control", placeholder="Mensagem")
+		button(class="btn btn-success", type="submit") Enviar

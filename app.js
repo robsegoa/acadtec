@@ -13,7 +13,7 @@ var expressValidator = require('express-validator');
 
 
 //conexão com mongo
-mongoose.connect('mongodb://localhost:27017/acadtec',function(err){
+mongoose.connect('mongodb://robson.segoa:!@ds145138.mlab.com:45138/acadtec',function(err){
   if(err){
     console.log("Erro ao conectar no mongoDB: "+err);
   }else{
@@ -101,6 +101,8 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-app.listen(3000, function() {
-    console.log('Express server listening on port 3000');
+var port = process.env.PORT || 5000;
+
+app.listen(port, function() {
+    console.log('Express server listening on port '+port);
 });
