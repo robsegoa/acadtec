@@ -21,7 +21,6 @@ mongoose.connect('mongodb://acadtec:123456@ds145128.mlab.com:45128/acadtec',func
   }
 });
 
-
 var app = express();
 
 //middleware
