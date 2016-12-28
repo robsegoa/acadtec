@@ -5,8 +5,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var load = require('express-load')
+var load = require('express-load');
+var mongoose = require('mongoose');
+var flash = require('express-flash');
+var moment = require('moment');
+var expressValidator = require('express-validator');
 
+
+//conexão com mongo
+mongoose.connect('mongodb://acadtec:123456@ds145128.mlab.com:45128/acadtec',function(err){
+  if(err){
+    console.log("Erro ao conectar no mongoDB: "+err);
+  }else{
+    console.log("Conexão com mongoDB efetuada com sucesso!");
+  }
+});
 
 var app = express();
 
@@ -21,10 +34,25 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded());
+////////////////bloco inserido depois//////
+app.use(expressValidator());
+/////////////////////////////////////
 app.use(cookieParser());
 app.use(session({ secret: 'nodejsacadtec009933'}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
+//helpers - tem que ser antes do carregamento do load
+app.use(function(req,res,next){
+  //sessão
+  res.locals.session = req.session.usuario;
+  res.locals.isLogged= req.session.usuario ? true : false;
+
+  //moment
+  res.locals.moment = moment;
+  next();
+});
 
 //Essa 4 linhas abaixo foram comentadas pq as rotas foram criadas nos controladores para usar o load;
 //var routes = require('./routes/index');
@@ -73,6 +101,8 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-app.listen(3000, function() {
-    console.log('Express server listening on port 3000');
+var port = process.env.PORT || 5000;
+
+app.listen(port, function() {
+    console.log('Express server listening on port '+port);
 });
