@@ -13,7 +13,7 @@ var expressValidator = require('express-validator');
 
 
 //conexão com mongo
-mongoose.connect('mongodb://acadtec:123456@ds145138.mlab.com:45138/acadtec',function(err){
+mongoose.connect('mongodb://acadtec:123456@ds145128.mlab.com:45128/acadtec',function(err){
   if(err){
     console.log("Erro ao conectar no mongoDB: "+err);
   }else{

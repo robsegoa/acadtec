@@ -1,9 +1,10 @@
-var nodemailer = require('nodemailer');
+
 
 module.exports = function(app){
 	var Usuario = app.models.usuarios;
 	var validacao = require('../validacoes/autenticacao');
-
+	var nodemailer = require('nodemailer');
+	
 	var HomeController = {
 		index: function(req,res){
 			res.render('home/index');	
